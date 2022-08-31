@@ -1,5 +1,19 @@
 <?php
-include_once("conn_obj.php");
+
+if (!isset($_GET['cID']) or  $_GET['cID']==''){
+//轉址
+header('location:02_tableView.php');
+exit();
+}
+$cID =  $_GET['cID'];
+// echo $_GET['cID'];
+//開始撈取每一位學生的資料
+include_once('./conn_obj.php');
+$sql = "select * from students where cID = {$cID}";
+//防止SQL
+$result = $db_link->query($sql);
+// print_r($result);
+$row = $result->fetch_assoc();
 ?>
 <!doctype html>
 <html lang="en">
@@ -12,12 +26,52 @@ include_once("conn_obj.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <title>學生系統-詳細資料</title>
+
+
 </head>
 
 <body>
     <div class="container py-3">
         <h1 class="text-center fw-bold">學生系統詳細資料</h1>
-        <?php echo $_GET['cID']; ?>單一用戶個人資料
+        單一用戶個人資料
+        <table class="table">
+            <tr>
+                <td>座號</td>
+                <td><?php echo $row['cID'];?></td>
+            </tr>
+            <tr>
+                <td>姓名</td>
+                <td><?php echo $row['cName'];?></td>
+            </tr>
+            <tr>
+                <td>性別</td>
+                <td><?php echo $row['cSex'];?></td>
+            </tr>
+            <tr>
+                <td>生日</td>
+                <td><?php echo $row['cBirthday'];?></td>
+            </tr>
+            <tr>
+                <td>手機</td>
+                <td><?php echo $row['cPhone'];?></td>
+            </tr>
+            <tr>
+                <td>住址</td>
+                <td><?php echo $row['cAddr'];?></td>
+            </tr>
+            <tr>
+                <td>身高</td>
+                <td><?php echo $row['cHeight'];?></td>
+            </tr>
+            <tr>
+                <td>體重</td>
+                <td><?php echo $row['cWeight'];?></td>
+            </tr>
+              
+        </table>
+         <div class="text-center">
+           <a  class="btn btn-primary" href="02_tableView.php">回主畫面</a>
+           </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 

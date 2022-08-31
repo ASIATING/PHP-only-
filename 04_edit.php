@@ -1,5 +1,13 @@
 <?php
-include_once("conn_obj.php");
+//$_GET 不存在時 轉址
+include_once('./getLocation.php');
+//連結資料庫
+include_once('./conn_obj.php');
+$cID = $_GET['cID'];
+$sql="SELECT * FROM students WHERE cID={$cID}";
+$result = $db_link->query($sql);
+// print_r($result);
+$row = $result->fetch_assoc();
 ?>
 <!doctype html>
 <html lang="en">
@@ -16,7 +24,58 @@ include_once("conn_obj.php");
 
 <body>
   <div class="container py-3">
-    <h1 class="text-center">00大學 學生系統</h1>
+    <h1 class="text-center">學生系統-編輯資料</h1>
+    <form action="./04_editOK.php" method="get">
+      <table>
+        <tr>
+        <input type="hidden" name="cID" value="<?php echo $row['cID']; ?>">
+        <input type="hidden" name="action" value="edit">
+          <td>座號</td>
+          <td>
+            <input type="text" name="cID2" id="cID2" disabled value="<?php echo $row['cID']; ?>"></td>  
+        </tr>
+        <tr>
+        
+          <td>姓名</td>
+          <td><input type="text" name="cName" id="cName" value="<?php echo $row['cName']; ?>"></td>
+        </tr>
+        <tr>
+          <td>性別</td>
+          <td>
+            <label><input type="radio" name="cSex" value="F" <?php if ($row['cSex'] == 'F'){ echo 'checked';} ?>>小姐</label>
+            <label><input type="radio" name="cSex" value="M" <?php if ($row['cSex'] == 'M'){ echo 'checked';} ?>>先生</label>
+          </td>
+        </tr>
+        <tr>
+          <td>生日</td>
+          <td><input type="date" name="cBirthday" id="cBirthday" value="<?php echo $row['cBirthday']; ?>"></td>
+        </tr>
+        <tr>
+          <td>電子郵件</td>
+          <td><input type="email" name="cEmail" id="cEmail" value="<?php echo $row['cEmail']; ?>"></td>
+        </tr>
+        <tr>
+          <td>手機號碼</td>
+          <td><input type="text" name="cPhone" id="cPhone" value="<?php echo $row['cPhone']; ?>"></td>
+        </tr>
+        <tr>
+          <td>住址</td>
+          <td><input type="text" name="cAddr" id="cAddr" value="<?php echo $row['cAddr']; ?>"></td>
+        </tr>
+        <tr>
+          <td>身高</td>
+          <td><input type="number" name="cHeight" id="cHeight" value="<?php echo $row['cHeight']; ?>"></td>
+        </tr>
+        <tr>
+          <td>體重</td>
+          <td><input type="number" name="cWeight" id="cWeight" value="<?php echo $row['cWeight']; ?>"></td>
+        </tr>
+
+      </table>
+
+      <input type="submit" value="更新資料">
+      <input type="reset" value="重新填寫">
+    </form>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
